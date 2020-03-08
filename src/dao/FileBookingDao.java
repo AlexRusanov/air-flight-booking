@@ -1,5 +1,7 @@
 package dao;
 
+import exceptions.BookingExistsException;
+import exceptions.BookingNotFoundException;
 import model.Booking;
 
 import java.io.*;
@@ -11,7 +13,7 @@ import java.util.stream.Collectors;
 public class FileBookingDao implements BookingDao{
     private final List<Booking> bookingList;
 
-    public FileBookingDao() throws IOException, ClassNotFoundException {
+    public FileBookingDao() {
         this.bookingList = loadAllBookingsFromFile().orElse(new ArrayList<>());
     }
 
@@ -30,11 +32,17 @@ public class FileBookingDao implements BookingDao{
     }
 
     @Override
-    public Optional<List<Booking>> loadAllBookingsFromFile() throws IOException, ClassNotFoundException {
-        FileInputStream fileInputStream = new FileInputStream("bookings.txt");
-        ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+    public Optional<List<Booking>> loadAllBookingsFromFile() {
+        List<Booking> bookings = null;
 
-        return Optional.of((List<Booking>) objectInputStream.readObject());
+        try(FileInputStream fileInputStream = new FileInputStream("bookings.txt");
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)){
+            bookings = (List<Booking>) objectInputStream.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.getMessage();
+        }
+
+        return Optional.ofNullable(bookings);
     }
 
     @Override
@@ -45,12 +53,16 @@ public class FileBookingDao implements BookingDao{
     }
 
     @Override
-    public boolean saveBooking(Booking booking) {
-        return !bookingList.contains(booking) && bookingList.add(booking);
+    public void saveBooking(Booking booking) throws BookingExistsException {
+        if (bookingList.contains(booking)) {
+            throw new BookingExistsException("Such booking already exists");
+        } else {
+            bookingList.add(booking);
+        }
     }
 
     @Override
-    public boolean deleteBooking(String id) {
-        return bookingList.remove(getBookingById(id).orElse(null));
+    public void deleteBooking(String id) {
+        bookingList.remove(getBookingById(id).orElseThrow(() -> new BookingNotFoundException("There is no booking with id - " + id)));
     }
 }

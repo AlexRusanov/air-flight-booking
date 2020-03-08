@@ -1,5 +1,6 @@
 package dao;
 
+import exceptions.BookingExistsException;
 import model.Booking;
 
 import java.io.IOException;
@@ -15,7 +16,7 @@ public interface BookingDao {
 
     Optional<Booking> getBookingById(String id);
 
-    boolean saveBooking(Booking booking);
+    void saveBooking(Booking booking) throws BookingExistsException;
 
-    boolean deleteBooking(String id);
+    void deleteBooking(String id);
 }

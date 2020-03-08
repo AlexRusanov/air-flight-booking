@@ -10,15 +10,13 @@ public class Booking implements Serializable {
     private String id;
     private String destination;
     private LocalDateTime date;
-    private int passengersCount;
-    private int flightId;
+    private String flightId;
     private List<String> passengers;
 
-    public Booking(String destination, LocalDateTime date, int passengersCount, int flightId, List<String> passengers) {
+    public Booking(String destination, LocalDateTime date, String flightId, List<String> passengers) {
         this.id = UUID.randomUUID().toString();
         this.destination = destination;
         this.date = date;
-        this.passengersCount = passengersCount;
         this.flightId = flightId;
         this.passengers = passengers;
     }
@@ -36,8 +34,7 @@ public class Booking implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Booking booking = (Booking) o;
-        return passengersCount == booking.passengersCount &&
-                flightId == booking.flightId &&
+        return Objects.equals(flightId, booking.flightId) &&
                 Objects.equals(destination, booking.destination) &&
                 Objects.equals(date, booking.date) &&
                 Objects.equals(passengers, booking.passengers);
@@ -45,7 +42,7 @@ public class Booking implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(destination, date, passengersCount, flightId, passengers);
+        return Objects.hash(destination, date, flightId, passengers);
     }
 
     @Override
@@ -54,7 +51,6 @@ public class Booking implements Serializable {
                 "id=" + id +
                 ", destination='" + destination + '\'' +
                 ", date=" + date +
-                ", passangersCount=" + passengersCount +
                 ", flightId=" + flightId +
                 ", passangers=" + passengers +
                 '}';
