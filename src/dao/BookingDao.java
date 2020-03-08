@@ -2,20 +2,20 @@ package dao;
 
 import model.Booking;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface BookingDao {
-    List<Booking> getAllBookingsByPassengerId(UUID id);
+    List<Booking> getAllBookingsByPassenger(String passenger);
 
-    List<Booking> getAllBookings();
+    void saveAllBookingsToFile() throws IOException;
 
-    Optional<Booking> getBookingById(UUID id);
+    Optional<List<Booking>> loadAllBookingsFromFile() throws IOException, ClassNotFoundException;
+
+    Optional<Booking> getBookingById(String id);
 
     boolean saveBooking(Booking booking);
 
-    boolean updateBooking(UUID id);
-
-    boolean deleteBooking(UUID id);
+    boolean deleteBooking(String id);
 }

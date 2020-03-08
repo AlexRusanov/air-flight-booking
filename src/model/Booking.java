@@ -7,15 +7,15 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class Booking implements Serializable {
-    private UUID id;
+    private String id;
     private String destination;
     private LocalDateTime date;
     private int passengersCount;
     private int flightId;
-    private List<UUID> passengers;
+    private List<String> passengers;
 
-    public Booking(String destination, LocalDateTime date, int passengersCount, int flightId, List<UUID> passengers) {
-        this.id = UUID.randomUUID();
+    public Booking(String destination, LocalDateTime date, int passengersCount, int flightId, List<String> passengers) {
+        this.id = UUID.randomUUID().toString();
         this.destination = destination;
         this.date = date;
         this.passengersCount = passengersCount;
@@ -23,8 +23,12 @@ public class Booking implements Serializable {
         this.passengers = passengers;
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
+    }
+
+    public List<String> getPassengers() {
+        return passengers;
     }
 
     @Override
@@ -32,8 +36,7 @@ public class Booking implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Booking booking = (Booking) o;
-        return id == booking.id &&
-                passengersCount == booking.passengersCount &&
+        return passengersCount == booking.passengersCount &&
                 flightId == booking.flightId &&
                 Objects.equals(destination, booking.destination) &&
                 Objects.equals(date, booking.date) &&
@@ -42,7 +45,7 @@ public class Booking implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, destination, date, passengersCount, flightId, passengers);
+        return Objects.hash(destination, date, passengersCount, flightId, passengers);
     }
 
     @Override
