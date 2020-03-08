@@ -17,6 +17,10 @@ public class FileBookingDao implements BookingDao{
         this.bookingList = loadAllBookingsFromFile().orElse(new ArrayList<>());
     }
 
+    public List<Booking> getBookingList() {
+        return bookingList;
+    }
+
     @Override
     public List<Booking> getAllBookingsByPassenger(String passenger) {
         return bookingList.stream()
