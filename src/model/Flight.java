@@ -5,7 +5,6 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
-
 public class Flight implements Serializable {
     private int idFlight;
     private String from;
