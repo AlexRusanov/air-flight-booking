@@ -4,23 +4,24 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.UUID;
 
 public class Flight implements Serializable {
-    private int idFlight;
+    private String idFlight;
     private String from;
     private String to;
     private int qtyFreePlaces;
     private long departureTime;
 
-    public Flight(int idFlight, String from, String to, int qtyFreePlaces, long departureTime) {
-        this.idFlight = idFlight;
+    public Flight(String from, String to, int qtyFreePlaces, long departureTime) {
+        this.idFlight = UUID.randomUUID().toString();
         this.from = from;
         this.to = to;
         this.qtyFreePlaces = qtyFreePlaces;
         this.departureTime = departureTime;
     }
 
-    public int getIdFlight() {
+    public String getIdFlight() {
         return idFlight;
     }
 
