@@ -1,6 +1,6 @@
 package exceptions;
 
-public class FlightException extends Throwable {
+public class FlightException extends RuntimeException {
     public FlightException(String message) {
         super(message);
     }
