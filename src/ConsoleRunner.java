@@ -8,6 +8,7 @@ import service.FlightService;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 public class ConsoleRunner {
@@ -54,10 +55,24 @@ public class ConsoleRunner {
                     case ("3"):
                         System.out.println("Введите место назначения");
                         String destination = scanner.nextLine().trim().toUpperCase();
-                        System.out.println("Введите дату в формате 2020-05-04");
-                        LocalDate date = LocalDate.parse(scanner.nextLine().trim().toUpperCase(), formatter);
-                        System.out.println("Введите количество необходимых билетов");
-                        int ticketsCount = Integer.parseInt(scanner.nextLine().trim());
+                        LocalDate date = null;
+                        while (date == null) {
+                            System.out.println("Введите дату в формате 2020-05-04");
+                            try {
+                                date = LocalDate.parse(scanner.nextLine().trim().toUpperCase(), formatter);
+                            } catch (DateTimeParseException m) {
+                                m.getMessage();
+                            }
+                        }
+                        int ticketsCount = 0;
+                        while (ticketsCount == 0) {
+                            System.out.println("Введите количество необходимых билетов");
+                            try {
+                                ticketsCount = Integer.parseInt(scanner.nextLine().trim());
+                            } catch (NumberFormatException m) {
+                                m.getMessage();
+                            }
+                        }
                         Optional<List<Flight>> flightList = flightController.printFlightByParams(destination, date, ticketsCount);
                         System.out.print("\n");
                         System.out.println("Выберите порядковый номер рейса или введите 0 для возврата в главное меню");
@@ -67,7 +82,15 @@ public class ConsoleRunner {
                             break;
                         }
 
-                        int flightIndex = Integer.parseInt(userInput) - 1;
+                        int flightIndex = 0;
+                        while (flightIndex == 0) {
+                            try {
+                                flightIndex = Integer.parseInt(userInput) - 1;
+                            } catch (NumberFormatException m) {
+                                m.getMessage();
+                            }
+
+                        }
 
                         List<String> passengers = new ArrayList<>();
 
@@ -75,7 +98,7 @@ public class ConsoleRunner {
                             System.out.println("Введите имя пасажира");
                             String fullName = scanner.nextLine().trim().toUpperCase();
                             System.out.println("Введите фамилию пасажира");
-                            fullName += scanner.nextLine().trim().toUpperCase();
+                            fullName += " " + scanner.nextLine().trim().toUpperCase();
                             passengers.add(fullName);
                         }
 
