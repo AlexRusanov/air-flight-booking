@@ -45,7 +45,7 @@ public class FlightController {
 
     }
 
-    public void printFlightByParams(String from, LocalDateTime departureTime, int qtyFreePlaces) {
+    public Optional<List<Flight>> printFlightByParams(String from, LocalDateTime departureTime, int qtyFreePlaces) {
         Optional<List<Flight>> flightsByParams = Optional.empty();
         try {
             flightsByParams = flightService.findFlightsByParams(from, departureTime, qtyFreePlaces);
@@ -60,5 +60,6 @@ public class FlightController {
         } catch (FlightException e) {
             System.out.println(e.getMessage());
         }
+        return flightsByParams;
     }
 }
