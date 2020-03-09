@@ -21,13 +21,7 @@ public class FileFlightDao implements FlightDao {
 
     @Override
     public Optional<List<Flight>> getAllFlights() {
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime tomorrow = now.plusDays(1);
-
-        return Optional.of(flightList.stream()
-                .filter(e -> (e.getDepartureTime().isAfter(now) || e.getDepartureTime().isEqual(now))
-                        && (e.getDepartureTime().isBefore(tomorrow) || e.getDepartureTime().isEqual(tomorrow)))
-                .collect(Collectors.toList()));
+        return Optional.of(flightList);
     }
 
     @Override
