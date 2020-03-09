@@ -12,7 +12,7 @@ import java.util.*;
 
 public class ConsoleRunner {
     public static void run() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         formatter = formatter.withLocale(Locale.getDefault());
         BookingController bookingController = new BookingController(new BookingService(new FileBookingDao()));
         try {
@@ -54,7 +54,7 @@ public class ConsoleRunner {
                     case ("3"):
                         System.out.println("Введите место назначения");
                         String destination = scanner.nextLine().trim().toUpperCase();
-                        System.out.println("Введите дату в формате 21-01-2020");
+                        System.out.println("Введите дату в формате 2020-05-04");
                         LocalDate date = LocalDate.parse(scanner.nextLine().trim().toUpperCase(), formatter);
                         System.out.println("Введите количество необходимых билетов");
                         int ticketsCount = Integer.parseInt(scanner.nextLine().trim());

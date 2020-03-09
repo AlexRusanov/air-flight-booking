@@ -48,10 +48,10 @@ public class FlightController {
     }
 
 
-    public Optional<List<Flight>> printFlightByParams(String from, LocalDate departureTime, int qtyFreePlaces) {
+    public Optional<List<Flight>> printFlightByParams(String to, LocalDate departureTime, int qtyFreePlaces) {
         Optional<List<Flight>> flightsByParams = Optional.empty();
         try {
-            flightsByParams = flightService.findFlightsByParams(from, departureTime, qtyFreePlaces);
+            flightsByParams = flightService.findFlightsByParams(to, departureTime, qtyFreePlaces);
 
             int sizeFlight = flightsByParams
                     .map(List::size)
