@@ -76,15 +76,14 @@ public class ConsoleRunner {
                         }
                         Optional<List<Flight>> flightList = flightController.printFlightByParams(destination, date, ticketsCount);
                         System.out.print("\n");
-                        System.out.println("Выберите порядковый номер рейса или введите 0 для возврата в главное меню");
-                        userInput = scanner.nextLine().trim();
 
-                        if (Objects.equals(userInput, "0")) {
-                            break;
-                        }
-
-                        int flightIndex = 0;
-                        while (flightIndex == 0) {
+                        int flightIndex = 78787;
+                        while (flightIndex == 78787) {
+                            System.out.println("Выберите порядковый номер рейса или введите 0 для возврата в главное меню");
+                            userInput = scanner.nextLine().trim();
+                            if (Objects.equals(userInput, "0")) {
+                                break;
+                            }
                             try {
                                 flightIndex = Integer.parseInt(userInput) - 1;
                             } catch (NumberFormatException m) {
