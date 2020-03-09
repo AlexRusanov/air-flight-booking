@@ -1,9 +1,11 @@
 package dao;
 
-import exceptions.FlightException;
+import exceptions.FlightLoadAllFlightException;
+import exceptions.FlightSaveFlightsException;
 import model.Flight;
 
 import java.io.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +15,7 @@ import java.util.stream.Collectors;
 public class FileFlightDao implements FlightDao {
     private final List<Flight> flightList;
 
-    public FileFlightDao() throws FlightException {
+    public FileFlightDao() {
         this.flightList = loadAllFlight().orElse(new ArrayList<>());
     }
 
@@ -29,24 +31,24 @@ public class FileFlightDao implements FlightDao {
     }
 
     @Override
-    public void saveFlights() throws FlightException {
+    public void saveFlights() throws FlightSaveFlightsException {
         try (FileOutputStream fileOutputStream = new FileOutputStream("flights.txt");) {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(flightList);
         } catch (IOException e) {
-            throw new FlightException("loadAllFlight: " + e.getMessage());
+            throw new FlightSaveFlightsException("loadAllFlight: " + e.getMessage());
         }
     }
 
     @Override
-    public Optional<List<Flight>> loadAllFlight() throws FlightException {
+    public Optional<List<Flight>> loadAllFlight() throws FlightLoadAllFlightException {
         List<Flight> flights;
 
         try (FileInputStream fileInputStream = new FileInputStream("flights.txt");
              ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
             flights = (List<Flight>) objectInputStream.readObject();
         } catch (ClassNotFoundException | IOException e) {
-            throw new FlightException("loadAllFlight: " + e.getMessage());
+            throw new FlightLoadAllFlightException("loadAllFlight: " + e.getMessage());
         }
 
         return Optional.ofNullable(flights);
@@ -60,11 +62,11 @@ public class FileFlightDao implements FlightDao {
     }
 
     @Override
-    public Optional<List<Flight>> findFlightsByParams(String from, LocalDateTime departureTime, int qtyFreePlaces) {
+    public Optional<List<Flight>> findFlightsByParams(String from, LocalDate departureTime, int qtyFreePlaces) {
         List<Flight> collect = flightList.stream()
                 .filter(i -> i.getFrom().toLowerCase().equals(from.toLowerCase()) &&
                         i.getQtyFreePlaces() >= qtyFreePlaces &&
-                        i.getDepartureTime().isEqual(departureTime))
+                        i.getDepartureTime().toLocalDate().isEqual(departureTime))
                 .collect(Collectors.toList());
 
         return collect.size() > 0 ? Optional.of(collect) : Optional.empty();

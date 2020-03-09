@@ -1,17 +1,16 @@
 package dao;
 
-import exceptions.FlightException;
 import model.Flight;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.*;
 
 public class FlightDaoTest {
 
     @Test
-    public void getAllFlights_When_IsNotEmpty() throws FlightException {
+    public void getAllFlights_When_IsNotEmpty() {
         //given
         FlightDao flightDAO = new FileFlightDao();
         //when
@@ -21,27 +20,26 @@ public class FlightDaoTest {
     }
 
     @Test
-    public void getFlightById_When_ifPresent() throws FlightException {
+    public void getFlightById_When_ifPresent() {
         //given
         FileFlightDao flightDAO = new FileFlightDao();
         //when
-        Flight find = flightDAO.getAllFlights().orElse(new ArrayList<>()).get(1);
+        Flight find = flightDAO.getAllFlights().orElse(new ArrayList<>()).get(0);
         String findId = find.getFlightId();
         //then
         Assert.assertEquals(Optional.of(find), flightDAO.getFlightById(findId));
     }
 
     @Test
-    public void findFlightsByParams_When_ifPresent() throws FlightException {
+    public void findFlightsByParams_When_ifPresent() {
         //given
         FileFlightDao flightDAO = new FileFlightDao();
         //when
-        String findFrom = flightDAO.getAllFlights().orElse(new ArrayList<>()).get(1).getFrom();
-        LocalDateTime findDepartureTime = flightDAO.getAllFlights().orElse(new ArrayList<>()).get(1).getDepartureTime();
-        int findQtyFreePlaces = flightDAO.getAllFlights().orElse(new ArrayList<>()).get(1).getQtyFreePlaces();
-        List<Flight> findList = new ArrayList<>();
-        findList.add(flightDAO.getAllFlights().orElse(new ArrayList<>()).get(1));
+        String findFrom = "Kyiv";
+        LocalDate findDepartureTime = LocalDate.of(2020, 3, 10);
+        int findQtyFreePlaces = 1;
         //then
-        Assert.assertEquals(Optional.of(findList), flightDAO.findFlightsByParams(findFrom, findDepartureTime, findQtyFreePlaces));
+        Assert.assertEquals(Optional.of(Collections.singletonList(flightDAO.getFlightById("eba0bf3d-283f-4a65-9652-04240911fc7e").get())),
+                flightDAO.findFlightsByParams(findFrom, findDepartureTime, findQtyFreePlaces));
     }
 }

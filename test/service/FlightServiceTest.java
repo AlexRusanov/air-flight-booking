@@ -1,19 +1,21 @@
 package service;
 
 import dao.FileFlightDao;
-import exceptions.FlightException;
 
+import exceptions.FlightFindFlightsByParamsNotFoundException;
+import exceptions.FlightGetAllFlightsIsEmptyException;
+import exceptions.FlightGetFlightByIdNotFoundException;
 import model.Flight;
 import org.junit.Test;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 public class FlightServiceTest {
 
-    @Test(expected = FlightException.class)
-    public void getAllFlights_When_HasException_IsEmpty() throws FlightException {
+    @Test(expected = FlightGetAllFlightsIsEmptyException.class)
+    public void getAllFlights_When_HasException_IsEmpty() {
         //given
         FileFlightDao flightDAO = new FileFlightDao() {
             @Override
@@ -27,8 +29,8 @@ public class FlightServiceTest {
         //then
     }
 
-    @Test(expected = FlightException.class)
-    public void getFlightById_When_HasException_NotFound() throws FlightException {
+    @Test(expected = FlightGetFlightByIdNotFoundException.class)
+    public void getFlightById_When_HasException_NotFound() {
         //given
         FileFlightDao flightDAO = new FileFlightDao();
         FlightService flightService = new FlightService(flightDAO);
@@ -37,14 +39,14 @@ public class FlightServiceTest {
         //then
     }
 
-    @Test(expected = FlightException.class)
-    public void findFlightsByParams_When_HasException_NotFound() throws FlightException {
+    @Test(expected = FlightFindFlightsByParamsNotFoundException.class)
+    public void findFlightsByParams_When_HasException_NotFound() {
         //given
         FileFlightDao flightDAO = new FileFlightDao();
         FlightService flightService = new FlightService(flightDAO);
         //when
         Optional<List<Flight>> flightsByParams = flightService.findFlightsByParams("Dnepr",
-                LocalDateTime.of(2020, 3, 10, 12, 54),
+                LocalDate.of(2020, 3, 10),
                 1);
         //then
     }
