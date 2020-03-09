@@ -42,4 +42,8 @@ public class BookingController {
             System.out.println(e.getMessage());
         }
     }
+
+    public void saveAllBookingsToFile() {
+        bookingService.saveAllBookingsToFile();
+    }
 }
