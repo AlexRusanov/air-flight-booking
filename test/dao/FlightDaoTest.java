@@ -35,11 +35,11 @@ public class FlightDaoTest {
         //given
         FileFlightDao flightDAO = new FileFlightDao();
         //when
-        String findFrom = "Kyiv";
-        LocalDate findDepartureTime = LocalDate.of(2020, 3, 10);
+        String findTo = "Bern";
+        LocalDate findDepartureTime = LocalDate.of(2020, 5, 4);
         int findQtyFreePlaces = 1;
         //then
-        Assert.assertEquals(Optional.of(Collections.singletonList(flightDAO.getFlightById("eba0bf3d-283f-4a65-9652-04240911fc7e").get())),
-                flightDAO.findFlightsByParams(findFrom, findDepartureTime, findQtyFreePlaces));
+        Assert.assertEquals(Optional.of(Collections.singletonList(flightDAO.getFlightById("a9bd5b36-2914-4b8d-bad5-89b9ebb0896d").get())),
+                flightDAO.findFlightsByParams(findTo, findDepartureTime, findQtyFreePlaces));
     }
 }

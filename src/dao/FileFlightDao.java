@@ -56,9 +56,9 @@ public class FileFlightDao implements FlightDao {
     }
 
     @Override
-    public Optional<List<Flight>> findFlightsByParams(String from, LocalDate departureTime, int qtyFreePlaces) {
+    public Optional<List<Flight>> findFlightsByParams(String to, LocalDate departureTime, int qtyFreePlaces) {
         List<Flight> collect = flightList.stream()
-                .filter(i -> i.getFrom().toLowerCase().equals(from.toLowerCase()) &&
+                .filter(i -> i.getTo().toLowerCase().equals(to.toLowerCase()) &&
                         i.getQtyFreePlaces() >= qtyFreePlaces &&
                         i.getDepartureTime().toLocalDate().isEqual(departureTime))
                 .collect(Collectors.toList());

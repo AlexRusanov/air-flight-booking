@@ -49,12 +49,12 @@ public class FlightService {
         return flightById;
     }
 
-    public Optional<List<Flight>> findFlightsByParams(String from, LocalDate departureTime, int qtyFreePlaces) throws FlightFindFlightsByParamsNotFoundException {
-        Optional<List<Flight>> findFlightsByParams = flightDAO.findFlightsByParams(from, departureTime, qtyFreePlaces);
+    public Optional<List<Flight>> findFlightsByParams(String to, LocalDate departureTime, int qtyFreePlaces) throws FlightFindFlightsByParamsNotFoundException {
+        Optional<List<Flight>> findFlightsByParams = flightDAO.findFlightsByParams(to, departureTime, qtyFreePlaces);
 
         if (findFlightsByParams.isEmpty()) {
             throw new FlightFindFlightsByParamsNotFoundException("Sorry... Flight not found by params ( " +
-                    from + ", " +
+                    to + ", " +
                     departureTime + ", " +
                     qtyFreePlaces + " )");
         }
