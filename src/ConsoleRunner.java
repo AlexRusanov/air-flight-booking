@@ -40,6 +40,7 @@ public class ConsoleRunner {
 
                 if (userInput.equals("6")) {
                     System.out.println("Спасибо что пользовались нашим приложением! До новых встреч");
+                    bookingController.saveAllBookingsToFile();
                     break;
                 }
 
