@@ -34,7 +34,7 @@ public class BookingControllerTest {
     }
 
     @Test
-    public void printAllBookingsByPassengerPrintsBookingsWhenGivenPassengerMadeSome () throws BookingExistsException {
+    public void printAllBookingsByPassengerPrintsBookingsWhenGivenPassengerMadeSome() throws BookingExistsException {
         //given
         FileBookingDao bookingDao = new FileBookingDao();
         BookingService bookingService = new BookingService(bookingDao);
@@ -49,12 +49,12 @@ public class BookingControllerTest {
         bookingDao.saveBooking(new Booking("Rome", LocalDateTime.now(), UUID.randomUUID().toString(), Arrays.asList("James Black", "Elithabet Taylor")));
         //then
         bookingController.printAllBookingsByPassenger("John Smith");
-        Assert.assertEquals("1. {id=" + id1 + ", destination='London', date=2020-06-04T13:13, flightId=London_2020_6_4_13_13, passangers=[John Smith, James Black, Elithabet Taylor]}\n" +
-                "2. {id=" + id2 + ", destination='Paris', date=2020-05-04T13:13, flightId=Paris_2020_5_4_13_13, passangers=[John Smith, Elithabet Taylor]}\n", outContent.toString());
+        Assert.assertEquals("1. {id=" + id1 + ", destination='London', date=2020-06-04T13:13, flightId=London_2020_6_4_13_13, passangers=[John Smith, James Black, Elithabet Taylor]}\r\n" +
+                "2. {id=" + id2 + ", destination='Paris', date=2020-05-04T13:13, flightId=Paris_2020_5_4_13_13, passangers=[John Smith, Elithabet Taylor]}\r\n", outContent.toString());
     }
 
     @Test
-    public void createBookingPrintsConfirmationWhenBookingIsCreated () throws BookingExistsException {
+    public void createBookingPrintsConfirmationWhenBookingIsCreated() throws BookingExistsException {
         //given
         FileBookingDao bookingDao = new FileBookingDao();
         BookingService bookingService = new BookingService(bookingDao);
@@ -62,11 +62,11 @@ public class BookingControllerTest {
         //when
         //then
         bookingController.createBooking("London", LocalDateTime.of(2020, 6, 4, 13, 13), "London_2020_6_4_13_13", Arrays.asList("John Smith", "James Black", "Elithabet Taylor"));
-        Assert.assertEquals("Your booking is confirmed. Thank you for choosing our service!\n", outContent.toString());
+        Assert.assertEquals("Your booking is confirmed. Thank you for choosing our service!\r\n", outContent.toString());
     }
 
     @Test
-    public void deleteBookingPrintsConfirmationOfDeletingWhenBookingIsDeleted () throws BookingExistsException {
+    public void deleteBookingPrintsConfirmationOfDeletingWhenBookingIsDeleted() throws BookingExistsException {
         //given
         FileBookingDao bookingDao = new FileBookingDao();
         BookingService bookingService = new BookingService(bookingDao);
@@ -76,6 +76,6 @@ public class BookingControllerTest {
         bookingService.createBooking("London", LocalDateTime.of(2020, 6, 4, 13, 13), "London_2020_6_4_13_13", Arrays.asList("John Smith", "James Black", "Elithabet Taylor"));
         String id = bookingDao.getBookingList().get(0).getId();
         bookingController.deleteBooking(id);
-        Assert.assertEquals("Your booking " + id + " is deleted\n", outContent.toString());
+        Assert.assertEquals("Your booking " + id + " is deleted\r\n", outContent.toString());
     }
 }

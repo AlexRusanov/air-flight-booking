@@ -2,7 +2,6 @@ import controller.BookingController;
 import controller.FlightController;
 import dao.FileBookingDao;
 import dao.FileFlightDao;
-import exceptions.FlightException;
 import model.Flight;
 import service.BookingService;
 import service.FlightService;
@@ -10,7 +9,6 @@ import service.FlightService;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.IntStream;
 
 public class ConsoleRunner {
     public static void run() {
@@ -60,7 +58,7 @@ public class ConsoleRunner {
                         LocalDate date = LocalDate.parse(scanner.nextLine().trim().toUpperCase(), formatter);
                         System.out.println("Введите количество необходимых билетов");
                         int ticketsCount = Integer.parseInt(scanner.nextLine().trim());
-                        List<Flight> flightList = flightController.printFlightByParams(destination, date, ticketsCount);
+                        Optional<List<Flight>> flightList = flightController.printFlightByParams(destination, date, ticketsCount);
                         System.out.print("\n");
                         System.out.println("Выберите порядковый номер рейса или введите 0 для возврата в главное меню");
                         userInput = scanner.nextLine().trim();
@@ -69,7 +67,7 @@ public class ConsoleRunner {
                             break;
                         }
 
-                        int flightIndex = Integer.parseInt(userInput);
+                        int flightIndex = Integer.parseInt(userInput) - 1;
 
                         List<String> passengers = new ArrayList<>();
 
@@ -81,7 +79,10 @@ public class ConsoleRunner {
                             passengers.add(fullName);
                         }
 
-                        bookingController.createBooking(destination, flightList.get(flightIndex).getDepartureTime(), flightList.get(flightIndex).getFlightId(), passengers);
+                        bookingController.createBooking(destination,
+                                flightList.get().get(flightIndex).getDepartureTime(),
+                                flightList.get().get(flightIndex).getFlightId(),
+                                passengers);
                         break;
                     case ("4"):
                         System.out.println("Введите id бронирования");
@@ -100,9 +101,14 @@ public class ConsoleRunner {
                         break;
                 }
             }
-        } catch (FlightException | RuntimeException e) {
+        } catch (RuntimeException e) {
             System.out.println(e.getMessage());
         }
 
+    }
+
+
+    public static void main(String[] args) {
+        run();
     }
 }
