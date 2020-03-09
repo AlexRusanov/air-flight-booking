@@ -1,10 +1,12 @@
 package controller;
 
-import exceptions.FlightException;
+import exceptions.FlightFindFlightsByParamsNotFoundException;
+import exceptions.FlightGetAllFlightsIsEmptyException;
+import exceptions.FlightGetFlightByIdNotFoundException;
 import model.Flight;
 import service.FlightService;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
@@ -17,7 +19,7 @@ public class FlightController {
     }
 
     public void printAllFlights() {
-        Optional<List<Flight>> allFlights = Optional.empty();
+        Optional<List<Flight>> allFlights;
         try {
             allFlights = flightService.getAllFlights();
 
@@ -29,7 +31,7 @@ public class FlightController {
             IntStream.range(0, sizeFlight)
                     .mapToObj(i -> (i + 1) + ". " + finalAllFlights.get().get(i))
                     .forEach(System.out::println);
-        } catch (FlightException e) {
+        } catch (FlightGetAllFlightsIsEmptyException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -39,13 +41,14 @@ public class FlightController {
         try {
             flight = flightService.getFlightById(flightId).get();
             System.out.println(flight);
-        } catch (FlightException e) {
+        } catch (FlightGetFlightByIdNotFoundException e) {
             System.out.println(e.getMessage());
         }
 
     }
 
-    public Optional<List<Flight>> printFlightByParams(String from, LocalDateTime departureTime, int qtyFreePlaces) {
+
+    public Optional<List<Flight>> printFlightByParams(String from, LocalDate departureTime, int qtyFreePlaces) {
         Optional<List<Flight>> flightsByParams = Optional.empty();
         try {
             flightsByParams = flightService.findFlightsByParams(from, departureTime, qtyFreePlaces);
@@ -57,7 +60,7 @@ public class FlightController {
             IntStream.range(0, sizeFlight)
                     .mapToObj(i -> (i + 1) + ". " + finalFlightsByParams.get())
                     .forEach(System.out::println);
-        } catch (FlightException e) {
+        } catch (FlightFindFlightsByParamsNotFoundException e) {
             System.out.println(e.getMessage());
         }
         return flightsByParams;
