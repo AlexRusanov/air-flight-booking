@@ -5,6 +5,7 @@ import exceptions.BookingExistsException;
 import exceptions.BookingNotFoundException;
 import model.Booking;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -31,5 +32,13 @@ public class BookingService {
 
     public void deleteBooking(String id) {
         bookingDao.deleteBooking(id);
+    }
+
+    public void saveAllBookingsToFile() {
+        try {
+            bookingDao.saveAllBookingsToFile();
+        } catch (IOException e) {
+            e.getMessage();
+        }
     }
 }
