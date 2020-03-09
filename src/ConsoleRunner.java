@@ -3,13 +3,14 @@ import controller.FlightController;
 import dao.FileBookingDao;
 import dao.FileFlightDao;
 import exceptions.FlightException;
+import model.Flight;
 import service.BookingService;
 import service.FlightService;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.IntStream;
 
 public class ConsoleRunner {
     public static void run() {
@@ -58,11 +59,29 @@ public class ConsoleRunner {
                         System.out.println("Введите дату в формате 21-01-2020");
                         LocalDate date = LocalDate.parse(scanner.nextLine().trim().toUpperCase(), formatter);
                         System.out.println("Введите количество необходимых билетов");
-                        String ticketsCount = scanner.nextLine().trim();
-                        flightController.printFlightByParams(destination, date, Integer.parseInt(ticketsCount));
+                        int ticketsCount = Integer.parseInt(scanner.nextLine().trim());
+                        List<Flight> flightList = flightController.printFlightByParams(destination, date, ticketsCount);
                         System.out.print("\n");
-                        System.out.println("Выберите порядковый номер рейса");
+                        System.out.println("Выберите порядковый номер рейса или введите 0 для возврата в главное меню");
+                        userInput = scanner.nextLine().trim();
 
+                        if (Objects.equals(userInput, "0")) {
+                            break;
+                        }
+
+                        int flightIndex = Integer.parseInt(userInput);
+
+                        List<String> passengers = new ArrayList<>();
+
+                        for (int i = 0; i < ticketsCount; i++) {
+                            System.out.println("Введите имя пасажира");
+                            String fullName = scanner.nextLine().trim().toUpperCase();
+                            System.out.println("Введите фамилию пасажира");
+                            fullName += scanner.nextLine().trim().toUpperCase();
+                            passengers.add(fullName);
+                        }
+
+                        bookingController.createBooking(destination, flightList.get(flightIndex).getDepartureTime(), flightList.get(flightIndex).getFlightId(), passengers);
                         break;
                     case ("4"):
                         System.out.println("Введите id бронирования");
