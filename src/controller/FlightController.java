@@ -47,6 +47,7 @@ public class FlightController {
 
     }
 
+
     public Optional<List<Flight>> printFlightByParams(String from, LocalDate departureTime, int qtyFreePlaces) {
         Optional<List<Flight>> flightsByParams = Optional.empty();
         try {
