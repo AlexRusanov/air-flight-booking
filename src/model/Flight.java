@@ -1,28 +1,27 @@
 package model;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Flight implements Serializable {
-    private String idFlight;
+    private String flightId;
     private String from;
     private String to;
     private int qtyFreePlaces;
-    private long departureTime;
+    private LocalDateTime departureTime;
 
-    public Flight(String from, String to, int qtyFreePlaces, long departureTime) {
-        this.idFlight = UUID.randomUUID().toString();
+    public Flight(String from, String to, int qtyFreePlaces, LocalDateTime departureTime) {
+        this.flightId = UUID.randomUUID().toString();
         this.from = from;
         this.to = to;
         this.qtyFreePlaces = qtyFreePlaces;
         this.departureTime = departureTime;
     }
 
-    public String getIdFlight() {
-        return idFlight;
+    public String getFlightId() {
+        return flightId;
     }
 
     public String getFrom() {
@@ -37,7 +36,7 @@ public class Flight implements Serializable {
         return qtyFreePlaces;
     }
 
-    public long getDepartureTime() {
+    public LocalDateTime getDepartureTime() {
         return departureTime;
     }
 
@@ -49,15 +48,32 @@ public class Flight implements Serializable {
         qtyFreePlaces--;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Flight flight = (Flight) o;
+        return Objects.equals(flightId, flight.flightId) &&
+                Objects.equals(from, flight.from) &&
+                Objects.equals(to, flight.to) &&
+                Objects.equals(departureTime, flight.departureTime) &&
+                qtyFreePlaces == flight.qtyFreePlaces;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(flightId, from, to, qtyFreePlaces, departureTime);
+    }
+
 
     @Override
     public String toString() {
         return "Flight{" +
-                "idFlight='" + idFlight + '\'' +
+                "flightId='" + flightId + '\'' +
                 "from='" + from + '\'' +
                 "to='" + to + '\'' +
                 "qtyFreePlaces='" + qtyFreePlaces + '\'' +
-                "departureTime='" + LocalDateTime.ofInstant(Instant.ofEpochMilli(departureTime), ZoneId.systemDefault()) + '\'' +
+                "departureTime='" + departureTime + '\'' +
                 '}';
     }
 }
