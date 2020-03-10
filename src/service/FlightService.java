@@ -60,4 +60,8 @@ public class FlightService {
 
         return findFlightsByParams;
     }
+
+    public void saveFlights() {
+        flightDAO.saveFlights();
+    }
 }

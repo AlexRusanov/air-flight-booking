@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class FileFlightDao implements FlightDao {
-    private final List<Flight> flightList;
+    private List<Flight> flightList;
 
     public FileFlightDao() {
         this.flightList = loadAllFlight().orElse(new ArrayList<>());
@@ -29,7 +29,25 @@ public class FileFlightDao implements FlightDao {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(flightList);
         } catch (IOException e) {
-            throw new FlightSaveFlightsException("loadAllFlight: " + e.getMessage());
+            throw new FlightSaveFlightsException("saveFlights: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void bookingFlight(String flightId) {
+        for (Flight flight : flightList) {
+            if (flight.getFlightId().equals(flightId)) {
+                flight.bookingFlight();
+            }
+        }
+    }
+
+    @Override
+    public void cancelBookingFlight(String flightId) {
+        for (Flight flight : flightList) {
+            if (flight.getFlightId().equals(flightId)) {
+                flight.cancelBookingFlight();
+            }
         }
     }
 
