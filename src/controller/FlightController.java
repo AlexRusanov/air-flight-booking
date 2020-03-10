@@ -65,4 +65,8 @@ public class FlightController {
         }
         return flightsByParams;
     }
+
+    public void saveFlights() {
+        flightService.saveFlights();
+    }
 }

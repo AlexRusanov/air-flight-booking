@@ -15,5 +15,9 @@ public interface FlightDao {
 
     void saveFlights();
 
+    void bookingFlight(String flightId);
+
+    void cancelBookingFlight(String flightId);
+
     Optional<List<Flight>> findFlightsByParams(String from, LocalDate departureTime, int qtyFreePlaces);
 }

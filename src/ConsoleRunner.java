@@ -15,10 +15,11 @@ public class ConsoleRunner {
     public static void run() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         formatter = formatter.withLocale(Locale.getDefault());
-        BookingController bookingController = new BookingController(new BookingService(new FileBookingDao()));
-        try {
-            FlightController flightController = new FlightController(new FlightService(new FileFlightDao()));
 
+        BookingController bookingController = new BookingController(new BookingService(new FileBookingDao(), new FileFlightDao()));
+        FlightController flightController = new FlightController(new FlightService(new FileFlightDao()));
+
+        try {
             Scanner scanner = new Scanner(System.in);
             String userInput;
 
@@ -41,6 +42,7 @@ public class ConsoleRunner {
                 if (userInput.equals("6")) {
                     System.out.println("Спасибо что пользовались нашим приложением! До новых встреч");
                     bookingController.saveAllBookingsToFile();
+                    flightController.saveFlights();
                     break;
                 }
 
@@ -76,21 +78,26 @@ public class ConsoleRunner {
                         }
                         Optional<List<Flight>> flightList = flightController.printFlightByParams(destination, date, ticketsCount);
                         System.out.print("\n");
-                        System.out.println("Выберите порядковый номер рейса или введите 0 для возврата в главное меню");
-                        userInput = scanner.nextLine().trim();
 
-                        if (Objects.equals(userInput, "0")) {
-                            break;
-                        }
-
+                        boolean flightIndexIsValid = false;
                         int flightIndex = 0;
-                        while (flightIndex == 0) {
+                        while (!flightIndexIsValid) {
+                            System.out.println("Выберите порядковый номер рейса или введите 0 для возврата в главное меню");
+                            userInput = scanner.nextLine().trim();
+
+                            if (Objects.equals(userInput, "0")) {
+                                break;
+                            }
+
                             try {
                                 flightIndex = Integer.parseInt(userInput) - 1;
+                                flightIndexIsValid = true;
                             } catch (NumberFormatException m) {
                                 m.getMessage();
                             }
-
+                        }
+                        if (Objects.equals(userInput, "0")) {
+                            break;
                         }
 
                         List<String> passengers = new ArrayList<>();
