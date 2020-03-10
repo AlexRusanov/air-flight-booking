@@ -10,11 +10,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class FileBookingDao implements BookingDao{
+public class FileBookingDao implements BookingDao {
     private final List<Booking> bookingList;
 
     public FileBookingDao() {
         this.bookingList = loadAllBookingsFromFile().orElse(new ArrayList<>());
+    }
+
+    public List<Booking> getBookingList() {
+        return bookingList;
     }
 
     @Override
@@ -29,14 +33,15 @@ public class FileBookingDao implements BookingDao{
         FileOutputStream fileOutputStream = new FileOutputStream("bookings.txt");
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
         objectOutputStream.writeObject(bookingList);
+        objectOutputStream.close();
     }
 
     @Override
     public Optional<List<Booking>> loadAllBookingsFromFile() {
         List<Booking> bookings = null;
 
-        try(FileInputStream fileInputStream = new FileInputStream("bookings.txt");
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)){
+        try (FileInputStream fileInputStream = new FileInputStream("bookings.txt");
+             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
             bookings = (List<Booking>) objectInputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.getMessage();
