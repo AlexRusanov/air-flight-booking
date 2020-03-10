@@ -21,6 +21,10 @@ public class Booking implements Serializable {
         this.passengers = passengers;
     }
 
+    public String getFlightId() {
+        return flightId;
+    }
+
     public String getId() {
         return id;
     }

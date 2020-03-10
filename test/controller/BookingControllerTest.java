@@ -1,6 +1,7 @@
 package controller;
 
 import dao.FileBookingDao;
+import dao.FileFlightDao;
 import exceptions.BookingExistsException;
 import model.Booking;
 import org.junit.After;
@@ -37,7 +38,8 @@ public class BookingControllerTest {
     public void printAllBookingsByPassengerPrintsBookingsWhenGivenPassengerMadeSome() throws BookingExistsException {
         //given
         FileBookingDao bookingDao = new FileBookingDao();
-        BookingService bookingService = new BookingService(bookingDao);
+        FileFlightDao flightDao = new FileFlightDao();
+        BookingService bookingService = new BookingService(bookingDao, flightDao);
         BookingController bookingController = new BookingController(bookingService);
         //when
         Booking smith1 = new Booking("London", LocalDateTime.of(2020, 6, 4, 13, 13), "London_2020_6_4_13_13", Arrays.asList("John Smith", "James Black", "Elithabet Taylor"));
@@ -57,7 +59,8 @@ public class BookingControllerTest {
     public void createBookingPrintsConfirmationWhenBookingIsCreated() throws BookingExistsException {
         //given
         FileBookingDao bookingDao = new FileBookingDao();
-        BookingService bookingService = new BookingService(bookingDao);
+        FileFlightDao flightDao = new FileFlightDao();
+        BookingService bookingService = new BookingService(bookingDao, flightDao);
         BookingController bookingController = new BookingController(bookingService);
         //when
         //then
@@ -69,7 +72,8 @@ public class BookingControllerTest {
     public void deleteBookingPrintsConfirmationOfDeletingWhenBookingIsDeleted() throws BookingExistsException {
         //given
         FileBookingDao bookingDao = new FileBookingDao();
-        BookingService bookingService = new BookingService(bookingDao);
+        FileFlightDao flightDao = new FileFlightDao();
+        BookingService bookingService = new BookingService(bookingDao, flightDao);
         BookingController bookingController = new BookingController(bookingService);
         //when
         //then

@@ -28,6 +28,7 @@ public class Flight implements Serializable {
         return from;
     }
 
+
     public String getTo() {
         return to;
     }
@@ -41,11 +42,11 @@ public class Flight implements Serializable {
     }
 
     public void bookingFlight() {
-        qtyFreePlaces++;
+        qtyFreePlaces--;
     }
 
     public void cancelBookingFlight() {
-        qtyFreePlaces--;
+        qtyFreePlaces++;
     }
 
     @Override
