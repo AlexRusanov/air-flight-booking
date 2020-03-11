@@ -42,7 +42,7 @@ public class FlightControllerTest {
         Assert.assertEquals("1. Flight{flightId='97518012-4420-4a52-a838-7cbd7eb7e387'from='Kyiv'to='London'qtyFreePlaces='5'departureTime='2020-03-09T13:32'}\r\n" +
                         "2. Flight{flightId='550cca24-2027-4556-91ff-a818e3496c0f'from='Kyiv'to='Tallinn'qtyFreePlaces='3'departureTime='2020-03-09T18:48'}\r\n" +
                         "3. Flight{flightId='eba0bf3d-283f-4a65-9652-04240911fc7e'from='Kyiv'to='Boston'qtyFreePlaces='4'departureTime='2020-03-10T12:54'}\r\n" +
-                        "4. Flight{flightId='a9bd5b36-2914-4b8d-bad5-89b9ebb0896d'from='Kyiv'to='Bern'qtyFreePlaces='5'departureTime='2020-05-04T22:11'}\r\n" +
+                        "4. Flight{flightId='a9bd5b36-2914-4b8d-bad5-89b9ebb0896d'from='Kyiv'to='Bern'qtyFreePlaces='4'departureTime='2020-05-04T22:11'}\r\n" +
                         "5. Flight{flightId='073d2a91-7776-4771-8cc3-7eda2a6bf3ab'from='Kyiv'to='Lisbon'qtyFreePlaces='1'departureTime='2020-09-23T23:10'}\r\n" +
                         "6. Flight{flightId='2af0bd3d-f313-4058-9912-d7e7050f2dbf'from='Kyiv'to='Riga'qtyFreePlaces='5'departureTime='2020-11-12T13:22'}\r\n" +
                         "7. Flight{flightId='d97d66ff-a55b-4454-b5e6-7e07237c8408'from='Kyiv'to='Dublin'qtyFreePlaces='2'departureTime='2020-07-08T10:23'}\r\n",

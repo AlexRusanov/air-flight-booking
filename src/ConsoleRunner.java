@@ -16,8 +16,11 @@ public class ConsoleRunner {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         formatter = formatter.withLocale(Locale.getDefault());
 
-        BookingController bookingController = new BookingController(new BookingService(new FileBookingDao(), new FileFlightDao()));
-        FlightController flightController = new FlightController(new FlightService(new FileFlightDao()));
+        FileFlightDao fileFlightDao = new FileFlightDao();
+        FileBookingDao fileBookingDao = new FileBookingDao();
+
+        BookingController bookingController = new BookingController(new BookingService(fileBookingDao, fileFlightDao));
+        FlightController flightController = new FlightController(new FlightService(fileFlightDao));
 
         Scanner scanner = new Scanner(System.in);
         String userInput;
