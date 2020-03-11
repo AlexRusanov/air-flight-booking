@@ -31,11 +31,16 @@ public class BookingService {
     }
 
     public void createBooking(String destination, LocalDateTime date, String flightId, List<String> passengers) throws BookingExistsException {
-        for (int i = 0; i < passengers.size(); i++) {
-            flightDao.bookingFlight(flightId);
-        }
 
-        bookingDao.saveBooking(new Booking(destination, date, flightId, passengers));
+        try {
+            bookingDao.saveBooking(new Booking(destination, date, flightId, passengers));
+
+            for (int i = 0; i < passengers.size(); i++) {
+                flightDao.bookingFlight(flightId);
+            }
+        } catch (BookingExistsException m) {
+            throw m;
+        }
     }
 
 
