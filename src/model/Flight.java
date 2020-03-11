@@ -28,7 +28,6 @@ public class Flight implements Serializable {
         return from;
     }
 
-
     public String getTo() {
         return to;
     }

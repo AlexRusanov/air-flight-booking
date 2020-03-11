@@ -6,28 +6,27 @@ import model.Flight;
 
 import java.io.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class FileFlightDao implements FlightDao {
-    private List<Flight> flightList;
+    private Optional<List<Flight>> flightList;
 
     public FileFlightDao() {
-        this.flightList = loadAllFlight().orElse(new ArrayList<>());
+        flightList = loadAllFlight();
     }
 
     @Override
     public Optional<List<Flight>> getAllFlights() {
-        return Optional.of(flightList);
+        return flightList;
     }
 
     @Override
     public void saveFlights() throws FlightSaveFlightsException {
         try (FileOutputStream fileOutputStream = new FileOutputStream("flights.txt");) {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            objectOutputStream.writeObject(flightList);
+            objectOutputStream.writeObject(flightList.get());
         } catch (IOException e) {
             throw new FlightSaveFlightsException("saveFlights: " + e.getMessage());
         }
@@ -35,7 +34,7 @@ public class FileFlightDao implements FlightDao {
 
     @Override
     public void bookingFlight(String flightId) {
-        for (Flight flight : flightList) {
+        for (Flight flight : flightList.get()) {
             if (flight.getFlightId().equals(flightId)) {
                 flight.bookingFlight();
             }
@@ -44,7 +43,7 @@ public class FileFlightDao implements FlightDao {
 
     @Override
     public void cancelBookingFlight(String flightId) {
-        for (Flight flight : flightList) {
+        for (Flight flight : flightList.get()) {
             if (flight.getFlightId().equals(flightId)) {
                 flight.cancelBookingFlight();
             }
@@ -67,14 +66,14 @@ public class FileFlightDao implements FlightDao {
 
     @Override
     public Optional<Flight> getFlightById(String flightId) {
-        return flightList.stream()
+        return flightList.get().stream()
                 .filter(i -> i.getFlightId().equals(flightId))
                 .findFirst();
     }
 
     @Override
     public Optional<List<Flight>> findFlightsByParams(String to, LocalDate departureTime, int qtyFreePlaces) {
-        List<Flight> collect = flightList.stream()
+        List<Flight> collect = flightList.get().stream()
                 .filter(i -> i.getTo().toLowerCase().equals(to.toLowerCase()) &&
                         i.getQtyFreePlaces() >= qtyFreePlaces &&
                         i.getDepartureTime().toLocalDate().isEqual(departureTime))
