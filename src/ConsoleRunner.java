@@ -19,33 +19,33 @@ public class ConsoleRunner {
         BookingController bookingController = new BookingController(new BookingService(new FileBookingDao(), new FileFlightDao()));
         FlightController flightController = new FlightController(new FlightService(new FileFlightDao()));
 
-        try {
-            Scanner scanner = new Scanner(System.in);
-            String userInput;
+        Scanner scanner = new Scanner(System.in);
+        String userInput;
 
-            String mainMenu = "Доступные команды:\n" +
-                    "1. Онайн-табло\n" +
-                    "2. Посмотреть информацию о рейсе\n" +
-                    "3. Поиск и бронировка рейса\n" +
-                    "4. Отменить бронирование\n" +
-                    "5. Мои рейсы\n" +
-                    "6. Выход\n";
+        String mainMenu = "Доступные команды:\n" +
+                "1. Онайн-табло\n" +
+                "2. Посмотреть информацию о рейсе\n" +
+                "3. Поиск и бронировка рейса\n" +
+                "4. Отменить бронирование\n" +
+                "5. Мои рейсы\n" +
+                "6. Выход\n";
 
-            while (true) {
-                System.out.print("\n");
-                System.out.println(mainMenu);
-                System.out.print("\n");
-                System.out.print("Введите номер команды\n");
+        while (true) {
+            System.out.print("\n");
+            System.out.println(mainMenu);
+            System.out.print("\n");
+            System.out.print("Введите номер команды\n");
 
-                userInput = scanner.nextLine().trim();
+            userInput = scanner.nextLine().trim();
 
-                if (userInput.equals("6")) {
-                    System.out.println("Спасибо что пользовались нашим приложением! До новых встреч");
-                    bookingController.saveAllBookingsToFile();
-                    flightController.saveFlights();
-                    break;
-                }
+            if (userInput.equals("6")) {
+                System.out.println("Спасибо что пользовались нашим приложением! До новых встреч");
+                bookingController.saveAllBookingsToFile();
+                flightController.saveFlights();
+                break;
+            }
 
+            try {
                 switch (userInput) {
                     case ("1"):
                         flightController.printAllFlights();
@@ -131,11 +131,10 @@ public class ConsoleRunner {
                         System.out.println("Вы ввели не валидные данные");
                         break;
                 }
+            } catch (RuntimeException e) {
+                System.out.println(e.getMessage());
             }
-        } catch (RuntimeException e) {
-            System.out.println(e.getMessage());
         }
-
     }
 
 

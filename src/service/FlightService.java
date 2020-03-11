@@ -24,7 +24,7 @@ public class FlightService {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime tomorrow = now.plusDays(1);
 
-        if (allFlights.isEmpty()) {
+        if (!allFlights.isPresent()) {
             throw new FlightGetAllFlightsIsEmptyException("Sorry... Flight is empty");
         }
 
@@ -41,7 +41,7 @@ public class FlightService {
     public Optional<Flight> getFlightById(String flightId) throws FlightGetFlightByIdNotFoundException {
         Optional<Flight> flightById = flightDAO.getFlightById(flightId);
 
-        if (flightById.isEmpty()) {
+        if (!flightById.isPresent()) {
             throw new FlightGetFlightByIdNotFoundException("Sorry... Flight not found by " + flightId);
         }
 
@@ -51,7 +51,7 @@ public class FlightService {
     public Optional<List<Flight>> findFlightsByParams(String to, LocalDate departureTime, int qtyFreePlaces) throws FlightFindFlightsByParamsNotFoundException {
         Optional<List<Flight>> findFlightsByParams = flightDAO.findFlightsByParams(to, departureTime, qtyFreePlaces);
 
-        if (findFlightsByParams.isEmpty()) {
+        if (!findFlightsByParams.isPresent()) {
             throw new FlightFindFlightsByParamsNotFoundException("Sorry... Flight not found by params ( " +
                     to + ", " +
                     departureTime + ", " +
